@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Coding Challenge</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+	<header id="site-header">
+		<h1 class="caret">Twitter Feed for @salesforce</h1>
+	</header>
+	<content id="main"></content>
+	<script src="scripts/jquery-2.1.4.js"></script>
+	<script src="scripts/underscore-min.js"></script>
+	<script src="scripts/backbone-min.js"></script>
+	<script src="scripts/app.js"></script>
+	<script>
+		jQuery(document).ready(function ($) {
+			var refreshInterval = 60000,
+				tweets = new Tweets,
+				feed = new FeedView({collection: tweets}),
+				filter = new FeedFilterView({feed:feed}),
+				refresh = function () { tweets.refresh(function() { setTimeout(refresh, refreshInterval); }); };
+			$('#main').append(feed.el);
+			$('#site-header').append(filter.el);
+			refresh();
+		});
+	</script>
+</body>
+</html>
